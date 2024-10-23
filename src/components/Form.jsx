@@ -38,8 +38,7 @@ export const Form = ({ data, setData, updateDataApi, setUpdateDataApi }) => {
 	  console.log(addData);
     const res = await postData(addData);
     console.log("res", res);
-
-    if (res.status === 201) {
+    if (res.status === 200) {
       setData([...data, res.data]);
       setAddData({ title: "", body: "",description:"" });
     }
