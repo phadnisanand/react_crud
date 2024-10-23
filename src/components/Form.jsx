@@ -7,6 +7,7 @@ export const Form = ({ data, setData, updateDataApi, setUpdateDataApi }) => {
   const [addData, setAddData] = useState({
     title: "",
     body: "",
+	description: ""
   });
 
   let isEmpty = Object.keys(updateDataApi).length === 0;
@@ -17,6 +18,7 @@ export const Form = ({ data, setData, updateDataApi, setUpdateDataApi }) => {
       setAddData({
         title: updateDataApi.title || "",
         body: updateDataApi.body || "",
+		description: updateDataApi.description || "",
       });
   }, [updateDataApi]);
 
@@ -33,29 +35,30 @@ export const Form = ({ data, setData, updateDataApi, setUpdateDataApi }) => {
   };
 
   const addPostData = async () => {
+	  console.log(addData);
     const res = await postData(addData);
     console.log("res", res);
 
     if (res.status === 201) {
       setData([...data, res.data]);
-      setAddData({ title: "", body: "" });
+      setAddData({ title: "", body: "",description:"" });
     }
   };
 
   //   updatePostData
   const updatePostData = async () => {
     try {
-      const res = await updateData(updateDataApi.id, addData);
+      const res = await updateData(updateDataApi._id, addData);
       console.log(res);
 
       if (res.status === 200) {
         setData((prev) => {
           return prev.map((curElem) => {
-            return curElem.id === res.data.id ? res.data : curElem;
+            return curElem._id === res.data._id ? res.data : curElem;
           });
         });
 
-        setAddData({ title: "", body: "" });
+        setAddData({ title: "", body: "",description: "" });
         setUpdateDataApi({});
       }
     } catch ({ error }) {
@@ -94,10 +97,22 @@ export const Form = ({ data, setData, updateDataApi, setUpdateDataApi }) => {
         <input
           type="text"
           autoComplete="off"
-          placeholder="Add Post"
+          placeholder="Add Body"
           id="body"
           name="body"
           value={addData.body}
+          onChange={handleInputChange}
+        />
+      </div>
+	  <div>
+	    <label htmlFor="description"></label>
+        <input
+          type="text"
+          autoComplete="off"
+          placeholder="Add description"
+          id="description"
+          name="description"
+          value={addData.description}
           onChange={handleInputChange}
         />
       </div>

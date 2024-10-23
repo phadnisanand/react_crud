@@ -18,12 +18,12 @@ export const Posts = () => {
   }, []);
 
   //   function to delete Post
-  const handleDeletePost = async (id) => {
+  const handleDeletePost = async (_id) => {
     try {
-      const res = await deletePost(id);
+      const res = await deletePost(_id);
       if (res.status === 200) {
         const newUpdatedPosts = data.filter((curPost) => {
-          return curPost.id !== id;
+          return curPost._id !== _id;
         });
         setData(newUpdatedPosts);
       } else {
@@ -50,15 +50,16 @@ export const Posts = () => {
       <section className="section-post">
         <ol>
           {data.map((curElem) => {
-            const { id, body, title } = curElem;
+            const { _id, body, title,description } = curElem;
             return (
-              <li key={id}>
+              <li key={_id}>
                 <p>Title: {title}</p>
                 <p>Body: {body}</p>
+				<p>description: {description}</p>
                 <button onClick={() => handleUpdatePost(curElem)}>Edit</button>
                 <button
                   className="btn-delete"
-                  onClick={() => handleDeletePost(id)}
+                  onClick={() => handleDeletePost(_id)}
                 >
                   Delete
                 </button>
